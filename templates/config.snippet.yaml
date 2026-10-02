@@ -1,0 +1,11 @@
+# Hermes configuration recommendations
+# Add or merge these blocks into your ~/.hermes/config.yaml
+
+# Clean cron output without repetitive header/footer wrappers
+cron:
+  wrap_response: false
+
+# Groq speech-to-text configuration (fast and multilingual)
+stt:
+  provider: groq
+  language: "" # empty string enables automatic language detection

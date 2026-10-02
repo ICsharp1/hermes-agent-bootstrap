@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} — Feasibility</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0e0e10;
+    --card: #17171c;
+    --card-2: #1e1e24;
+    --line: #2a2a33;
+    --text: #e9e9ee;
+    --dim: #a9a9b4;
+    --faint: #7a7a86;
+    --accent: #a78bfa;
+    --good: #4ade80;
+    --warn: #fbbf24;
+    --bad: #f87171;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 0 20px 72px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  header { padding: 40px 0 24px; border-bottom: 1px solid var(--line); }
+  .kicker { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+  h1 { font-size: 1.9rem; line-height: 1.25; margin: 0 0 10px; letter-spacing: -.02em; }
+  .meta { font-size: .85rem; color: var(--faint); }
+  .verdict { display: inline-flex; align-items: center; gap: 8px; margin: 18px 0 0;
+    padding: 7px 14px; border-radius: 999px; font-weight: 600; font-size: .9rem;
+    border: 1px solid currentColor; }
+  .v-go { color: var(--good); }
+  .v-constraints { color: var(--warn); }
+  .v-no { color: var(--bad); }
+  .v-info { color: var(--accent); }
+  .tldr { margin: 20px 0 0; padding: 16px 18px; background: var(--card); border: 1px solid var(--line);
+    border-left: 3px solid var(--accent); border-radius: 10px; color: var(--text); }
+  h2 { font-size: 1.12rem; margin: 44px 0 14px; letter-spacing: -.01em; }
+  h2 .num { color: var(--accent); font-variant-numeric: tabular-nums; margin-right: 8px; }
+  p { color: var(--dim); margin: 0 0 12px; }
+  ul { margin: 0 0 12px; padding-left: 20px; color: var(--dim); }
+  li { margin-bottom: 7px; }
+  strong { color: var(--text); font-weight: 600; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(167,139,250,.35); }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0 18px; font-size: .92rem; }
+  th { text-align: left; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--faint); font-weight: 600; padding: 0 12px 9px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line); color: var(--dim); vertical-align: top; }
+  td:last-child, th:last-child { padding-right: 0; }
+  td .name { color: var(--text); font-weight: 600; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 6px;
+    border: 1px solid var(--line); background: var(--card-2); color: var(--dim); }
+  .tag.good { color: var(--good); }
+  .tag.bad { color: var(--bad); }
+  .tag.warn { color: var(--warn); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
+  .card h3 { margin: 0 0 6px; font-size: .98rem; }
+  .grid { display: grid; gap: 12px; }
+  @media (min-width: 700px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  .risk { display: flex; gap: 12px; align-items: baseline; }
+  .sev { font-size: 11px; padding: 2px 8px; border-radius: 6px; border: 1px solid currentColor;
+    white-space: nowrap; }
+  .sev.high { color: var(--bad); } .sev.med { color: var(--warn); } .sev.low { color: var(--dim); }
+  .effort { display: flex; gap: 10px; align-items: baseline; margin-bottom: 14px; }
+  .effort .size { font-size: 1.5rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  ol.sources { padding-left: 22px; font-size: .9rem; color: var(--dim); }
+  ol.sources li { margin-bottom: 10px; }
+  ol.sources .url { display: block; word-break: break-all; font-size: .82rem; color: var(--faint); }
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: .8rem; color: var(--faint); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Feasibility check</div>
+    <h1>{{TITLE}}</h1>
+    <div class="meta">{{PRODUCT}} &middot; {{DATE}} &middot; {{PLATFORM}}</div>
+    <div class="verdict {{VERDICT_CLASS}}">{{VERDICT}}</div>
+    <div class="tldr">{{TLDR}}</div>
+  </header>
+
+  <h2><span class="num">1</span>Precedents</h2>
+  <table>
+    <thead><tr><th>Product</th><th>What they did</th><th>Outcome</th><th>Evidence</th></tr></thead>
+    <tbody>
+      <!-- repeat per precedent -->
+      <tr>
+        <td><span class="name">{{P_NAME}}</span></td>
+        <td>{{P_WHAT}}</td>
+        <td><span class="tag {{P_TAG_CLASS}}">{{P_OUTCOME}}</span></td>
+        <td><a href="{{P_URL}}">link</a></td>
+      </tr>
+      <!-- /repeat -->
+    </tbody>
+  </table>
+  <p>{{PRECEDENT_NOTE}}</p>
+
+  <h2><span class="num">2</span>Platform &amp; policy constraints</h2>
+  <ul>
+    <!-- repeat -->
+    <li><strong>{{C_NAME}}</strong> — {{C_DETAIL}} <a href="{{C_URL}}">docs</a></li>
+    <!-- /repeat -->
+  </ul>
+
+  <h2><span class="num">3</span>Best practices</h2>
+  <ul>
+    <!-- repeat -->
+    <li>{{BP_ITEM}} <a href="{{BP_URL}}">source</a></li>
+    <!-- /repeat -->
+  </ul>
+
+  <h2><span class="num">4</span>Failure modes</h2>
+  <ul>
+    <!-- repeat -->
+    <li>{{FM_ITEM}} <a href="{{FM_URL}}">source</a></li>
+    <!-- /repeat -->
+  </ul>
+
+  <h2><span class="num">5</span>Related ideas worth stealing</h2>
+  <div class="grid two">
+    <!-- repeat -->
+    <div class="card">
+      <h3>{{RI_TITLE}}</h3>
+      <p>{{RI_BODY}}</p>
+    </div>
+    <!-- /repeat -->
+  </div>
+
+  <h2><span class="num">6</span>Effort &amp; risks</h2>
+  <div class="effort"><span class="size">{{EFFORT}}</span><span>{{EFFORT_WHY}}</span></div>
+  <!-- repeat -->
+  <div class="card risk">
+    <span class="sev {{R_SEV_CLASS}}">{{R_SEV}}</span>
+    <span>{{R_TEXT}}</span>
+  </div>
+  <!-- /repeat -->
+
+  <h2><span class="num">7</span>Sources</h2>
+  <ol class="sources">
+    <!-- repeat -->
+    <li>{{S_NOTE}} <a class="url" href="{{S_URL}}">{{S_URL}}</a></li>
+    <!-- /repeat -->
+  </ol>
+
+  <footer>
+    Prepared {{DATE}}. Verified claims cite a source; anything else is inference and is marked as such.
+  </footer>
+</div>
+</body>
+</html>

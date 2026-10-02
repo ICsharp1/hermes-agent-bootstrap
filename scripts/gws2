@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Run google_api.py against the SECOND Google account (Scout mailbox, Gmail read+send).
+# Usage: gws2 gmail search "is:unread"
+export HERMES_GOOGLE_TOKEN="${HERMES_GOOGLE_TOKEN:-$HOME/.hermes/google_token_scout.json}"
+export HERMES_GOOGLE_SCOPES="https://www.googleapis.com/auth/gmail.readonly,https://www.googleapis.com/auth/gmail.send"
+
+SKILLS_SCRIPT="$HOME/.hermes/skills/productivity/google-workspace/scripts/google_api.py"
+if [ ! -f "$SKILLS_SCRIPT" ]; then
+  echo "Error: google-workspace skill not found at $SKILLS_SCRIPT" >&2
+  exit 1
+fi
+
+exec python3 "$SKILLS_SCRIPT" "$@"
